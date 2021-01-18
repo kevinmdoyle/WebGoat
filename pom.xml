@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.owasp.webgoat</groupId>
@@ -143,7 +143,7 @@
         <module>webgoat-server</module>
         <module>webwolf</module>
         <module>webgoat-integration-tests</module>
-		<module>docker</module><!-- copy required jars in preparation of docker all-in-one build -->
+        <module>docker</module>        <!-- copy required jars in preparation of docker all-in-one build -->
     </modules>
 
     <dependencies>
@@ -164,47 +164,17 @@
         </dependency>
     </dependencies>
 
-<build>
-	<plugins>
-		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-compiler-plugin</artifactId>
-			<configuration>
-				<source>11</source>
-				<target>11</target>
-				<encoding>UTF-8</encoding>
-			</configuration>
-		</plugin>
-		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-checkstyle-plugin</artifactId>
-			<version>3.1.0</version>
-			<configuration>
-				<encoding>UTF-8</encoding>
-				<consoleOutput>true</consoleOutput>
-				<failsOnError>true</failsOnError>
-				<configLocation>config/checkstyle/checkstyle.xml</configLocation>
-				<suppressionsLocation>config/checkstyle/suppressions.xml</suppressionsLocation>
-				<suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
-			</configuration>
-		</plugin>
-	</plugins>
-</build>
-
-<profiles>
-	<profile>
-		<id>defaultProfile</id>
-		<activation>
-			<activeByDefault>true</activeByDefault>
-		</activation>		
-	</profile>
-	<profile>
-		<id>owasp</id>
-		<activation>
-			<activeByDefault>false</activeByDefault>
-		</activation>
-		    <build>
+    <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
@@ -219,51 +189,107 @@
                 </configuration>
             </plugin>
             <plugin>
-      				<groupId>org.apache.maven.plugins</groupId>
-      				<artifactId>maven-pmd-plugin</artifactId>
-      				<version>3.13.0</version>
-      				<configuration>
-      					<targetJdk>11</targetJdk>
-      					<failurePriority>1</failurePriority><!-- 5 means fail even on the lowest
-      						priority, 0 means never fail -->
-      					<rulesets>
-      						<ruleset>${maven.multiModuleProjectDirectory}/pmd-ruleset.xml</ruleset>
-      					</rulesets>
-      					<failOnViolation>true</failOnViolation>
-      					<printFailingErrors>true</printFailingErrors>
-      				</configuration>
-      				<executions>
-      					<execution>
-      						<goals>
-      							<goal>check</goal>
-      						</goals>
-      					</execution>
-      				</executions>
-      			</plugin>
-      			<plugin>
-      				<groupId>org.owasp</groupId>
-      				<artifactId>dependency-check-maven</artifactId>
-      				<version>5.3.2</version>
-      				<configuration>
-      					<failBuildOnCVSS>7</failBuildOnCVSS>
-      					<skipProvidedScope>true</skipProvidedScope>
-                          <skipRuntimeScope>true</skipRuntimeScope>
-      					<suppressionFiles>
-                              <suppressionFile>project-suppression.xml</suppressionFile>
-                          </suppressionFiles>
-      				</configuration>
-      				<executions>
-      					<execution>
-      						<goals>
-      							<goal>check</goal>
-      						</goals>
-      					</execution>
-      				</executions>
-      			</plugin>
+                <groupId>org.cyclonedx</groupId>
+                <artifactId>cyclonedx-maven-plugin</artifactId>
+                <inherited>false</inherited>
+            </plugin>
         </plugins>
     </build>
-	</profile>
-</profiles>
+
+    <profiles>
+        <profile>
+            <id>defaultProfile</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>owasp</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-checkstyle-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <configuration>
+                            <encoding>UTF-8</encoding>
+                            <consoleOutput>true</consoleOutput>
+                            <failsOnError>true</failsOnError>
+                            <configLocation>config/checkstyle/checkstyle.xml</configLocation>
+                            <suppressionsLocation>config/checkstyle/suppressions.xml</suppressionsLocation>
+                            <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-pmd-plugin</artifactId>
+                        <version>3.13.0</version>
+                        <configuration>
+                            <targetJdk>11</targetJdk>
+                            <failurePriority>1</failurePriority>                            <!-- 5 means fail even on the lowest
+      						priority, 0 means never fail -->
+                            <rulesets>
+                                <ruleset>${maven.multiModuleProjectDirectory}/pmd-ruleset.xml</ruleset>
+                            </rulesets>
+                            <failOnViolation>true</failOnViolation>
+                            <printFailingErrors>true</printFailingErrors>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.owasp</groupId>
+                        <artifactId>dependency-check-maven</artifactId>
+                        <version>5.3.2</version>
+                        <configuration>
+                            <failBuildOnCVSS>7</failBuildOnCVSS>
+                            <skipProvidedScope>true</skipProvidedScope>
+                            <skipRuntimeScope>true</skipRuntimeScope>
+                            <suppressionFiles>
+                                <suppressionFile>project-suppression.xml</suppressionFile>
+                            </suppressionFiles>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.cyclonedx</groupId>
+                        <artifactId>cyclonedx-maven-plugin</artifactId>
+                        <version>1.3.1</version>
+                        <executions>
+                            <execution>
+                                <id>cyclonedx-aggregate</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>makeAggregateBom</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <includeCompileScope>true</includeCompileScope>
+                            <includeProvidedScope>true</includeProvidedScope>
+                            <includeRuntimeScope>true</includeRuntimeScope>
+                            <includeSystemScope>true</includeSystemScope>
+                            <includeTestScope>false</includeTestScope>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <repositories>
         <repository>
