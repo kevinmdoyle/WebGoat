@@ -126,6 +126,11 @@
             <type>jar</type>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.cyclonedx</groupId>
+            <artifactId>cyclonedx-core-java</artifactId>
+            <version>3.0.7</version>
+        </dependency>
 
         <!-- ************* END: Dependencies for Unit and Integration Testing ************** -->
         <!-- ************* END: <dependencies> ************** -->
