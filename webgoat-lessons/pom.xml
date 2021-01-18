@@ -81,11 +81,6 @@
             <version>4.1.3.RELEASE</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.cyclonedx</groupId>
-            <artifactId>cyclonedx-core-java</artifactId>
-            <version>3.0.7</version>
-        </dependency>
         <!-- Please do not add lesson dependent libraries here, place them in the corresponding lesson -->
     </dependencies>
     <dependencyManagement>
@@ -120,11 +115,6 @@
                     <target>11</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.cyclonedx</groupId>
-                <artifactId>cyclonedx-maven-plugin</artifactId>
-                <inherited>false</inherited>
             </plugin>
         </plugins>
     </build>

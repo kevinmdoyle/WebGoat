@@ -163,11 +163,6 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.cyclonedx</groupId>
-            <artifactId>cyclonedx-core-java</artifactId>
-            <version>3.0.7</version>
-        </dependency>
     </dependencies>
 
     <build>
@@ -212,11 +207,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.cyclonedx</groupId>
-                <artifactId>cyclonedx-maven-plugin</artifactId>
-                <inherited>false</inherited>
             </plugin>
         </plugins>
     </build>

@@ -162,11 +162,6 @@
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.cyclonedx</groupId>
-            <artifactId>cyclonedx-core-java</artifactId>
-            <version>3.0.7</version>
-        </dependency>
     </dependencies>
 
     <build>
@@ -196,7 +191,27 @@
             <plugin>
                 <groupId>org.cyclonedx</groupId>
                 <artifactId>cyclonedx-maven-plugin</artifactId>
-                <inherited>false</inherited>
+                <version>2.1.1</version>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>makeAggregateBom</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <projectType>library</projectType>
+                    <schemaVersion>1.2</schemaVersion>
+                    <includeBomSerialNumber>true</includeBomSerialNumber>
+                    <includeCompileScope>true</includeCompileScope>
+                    <includeProvidedScope>true</includeProvidedScope>
+                    <includeRuntimeScope>true</includeRuntimeScope>
+                    <includeSystemScope>true</includeSystemScope>
+                    <includeTestScope>false</includeTestScope>
+                    <includeLicenseText>false</includeLicenseText>
+                    <outputFormat>all</outputFormat>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -269,27 +284,6 @@
                                 </goals>
                             </execution>
                         </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.cyclonedx</groupId>
-                        <artifactId>cyclonedx-maven-plugin</artifactId>
-                        <version>1.3.1</version>
-                        <executions>
-                            <execution>
-                                <id>cyclonedx-aggregate</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>makeAggregateBom</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <includeCompileScope>true</includeCompileScope>
-                            <includeProvidedScope>true</includeProvidedScope>
-                            <includeRuntimeScope>true</includeRuntimeScope>
-                            <includeSystemScope>true</includeSystemScope>
-                            <includeTestScope>false</includeTestScope>
-                        </configuration>
                     </plugin>
                 </plugins>
             </build>
